@@ -28,7 +28,7 @@ async function readAll(req, res) {
     if (allProducts.length > 0) {
       for (let product of allProducts) {
         product.price = product.price / 100;
-        sendProducts(product);
+        sendProducts.push(product);
       }
     }
 
@@ -46,6 +46,8 @@ async function readDetails(req, res) {
 
     const product = await MProduct.findOne({ $or: searchOptions });
 
+    product.price = product.price / 100;
+
     return res.status(200).json(product);
   } catch (error) {
     return res.status(500).json({ err: "internal server error" });
@@ -57,6 +59,10 @@ async function Update(req, res) {
     const { id } = req.params;
 
     const searchOptions = [{ slug: id }, { id }];
+
+    if (req.body.price) {
+      req.body.price = req.body.price * 100;
+    }
 
     await MProduct.findOneAndUpdate({ $or: searchOptions }, req.body);
 
@@ -72,7 +78,7 @@ async function Delete(req, res) {
 
     const searchOptions = [{ slug: id }, { id }];
 
-    await MProduct.findByIdAndDelete({ $or: searchOptions });
+    await MProduct.findOneAndDelete({ $or: searchOptions });
 
     return res.status(200).send();
   } catch (error) {

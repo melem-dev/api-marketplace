@@ -6,8 +6,10 @@ module.exports = (size, onlyNumbers = false) => {
   let hash = "";
 
   for (let x = 0; x < size; x++) {
-    hash += chars[Math.floor(Math.random * chars.length)].toUpperCase();
+    hash += chars.charAt(Math.floor(Math.random() * chars.length));
   }
+
+  hash = onlyNumbers ? hash : hash.toUpperCase();
 
   return hash;
 };

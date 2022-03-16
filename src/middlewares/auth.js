@@ -14,7 +14,6 @@ module.exports = (req, res, next) => {
 
     return next();
   } catch (error) {
-    console.log(error.message);
     return res.status(400).json({ err: "permission denied" });
   }
 };

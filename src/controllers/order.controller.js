@@ -23,7 +23,7 @@ async function Purchase(req, res) {
     }
 
     const order = {
-      client: req.user.id,
+      client: req.user.user,
       items: listItems,
       total: total * 100,
       status: 1,
@@ -68,15 +68,25 @@ async function allOrders(req, res) {
 
     for (let x of orders) {
       const orderItems = [];
-      for (let y of x.items) {
-        const productOrder = await MOrderItem.findById(y);
-        productOrder.price = productOrder.price / 100;
-        orderItems.push(productOrder);
-      }
-      x.total = x.total / 100;
-      x.items = orderItems;
 
-      sendOrders.push(x);
+      for (let y of x.items) {
+        let searchQuery = { $or: [{ slug: y }, { id: y }] };
+        const { quantity, item } = await MOrderItem.findOne(searchQuery);
+
+        searchQuery = { $or: [{ slug: item }, { id: item }] };
+        let { title, price } = await MProduct.findOne(searchQuery);
+
+        price = price / 100;
+
+        orderItems.push({ quantity, title, price });
+      }
+
+      sendOrders.push({
+        client: x.client,
+        items: orderItems,
+        status: x.status,
+        total: x.total / 100,
+      });
     }
 
     return res.status(200).json(sendOrders);
