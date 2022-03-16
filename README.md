@@ -64,4 +64,4 @@ API com funções básicas de uma loja, como cadastro de produtos, cadastro de c
   - [x] GET /order/:id
   - [x] POST /order
 - Fix:
-  - [ ] Produto incorreto ao buscar ordens
+  - [x] Produto incorreto ao buscar ordens
