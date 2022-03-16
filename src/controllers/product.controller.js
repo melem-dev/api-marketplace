@@ -40,11 +40,14 @@ async function readAll(req, res) {
 
 async function readDetails(req, res) {
   try {
+    let product;
     const { id } = req.params;
 
-    const searchOptions = [{ slug: id }, { id }];
+    product = await MProduct.findOne({ slug: id });
 
-    const product = await MProduct.findOne({ $or: searchOptions });
+    if (!product) {
+      product = await MProduct.findById(id);
+    }
 
     product.price = product.price / 100;
 

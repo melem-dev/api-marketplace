@@ -70,11 +70,20 @@ async function allOrders(req, res) {
       const orderItems = [];
 
       for (let y of x.items) {
-        let searchQuery = { $or: [{ slug: y }, { id: y }] };
-        const { quantity, item } = await MOrderItem.findOne(searchQuery);
+        let orderItem;
+        let product;
 
-        searchQuery = { $or: [{ slug: item }, { id: item }] };
-        let { title, price } = await MProduct.findOne(searchQuery);
+        orderItem = await MOrderItem.findById(y);
+
+        const { quantity, item } = orderItem;
+
+        product = await MProduct.findOne({ slug: item });
+
+        if (!product) {
+          product = await MProduct.findById(item);
+        }
+
+        let { title, price } = product;
 
         price = price / 100;
 
@@ -91,7 +100,18 @@ async function allOrders(req, res) {
 
     return res.status(200).json(sendOrders);
   } catch (error) {
+    console.log(error.message);
     return res.status(500).json({ err: "internal server errror" });
+  }
+}
+
+async function deleteAllOrders(req, res) {
+  try {
+    await MOrder.deleteMany();
+    return res.status(200).send();
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ err: "internal server error" });
   }
 }
 
@@ -99,4 +119,5 @@ module.exports = {
   Purchase,
   CheckStatus,
   allOrders,
+  deleteAllOrders,
 };

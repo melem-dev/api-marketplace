@@ -14,5 +14,6 @@ router.delete("/product/:id", LAuth, _Product.Delete);
 router.post("/order", LAuth, _Order.Purchase);
 router.get("/order/:id", LAuth, _Order.CheckStatus);
 router.get("/order", LAuth, _Order.allOrders);
+router.delete("/order", LAuth, _Order.deleteAllOrders);
 
 module.exports = router;
