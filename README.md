@@ -37,12 +37,12 @@ API com funções básicas de uma loja, como cadastro de produtos, cadastro de c
   - [x] Autenticação
     - [x] Login
     - [x] Cadastro
-  - [ ] Produtos
-    - [ ] Cadastro
-    - [ ] Listar um
-    - [ ] Listar todos
-    - [ ] Editar
-    - [ ] Excluir
+  - [x] Produtos
+    - [x] Cadastro
+    - [x] Listar um
+    - [x] Listar todos
+    - [x] Editar
+    - [x] Excluir
   - [ ] Ordens
     - [ ] Compra
     - [ ] Status
