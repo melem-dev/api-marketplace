@@ -1,3 +1,4 @@
 const LAuth = require("./auth");
+const LRoles = require("./role");
 
-module.exports = { LAuth };
+module.exports = { LAuth, LRoles };

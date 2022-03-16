@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { MUser } = require("../models");
+const { MUser, MClient, MEmployee } = require("../models");
 const { b64, jwt } = require("../utils");
 
 async function Login(req, res) {
@@ -34,7 +34,7 @@ async function Login(req, res) {
 
 async function Register(req, res, next) {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, type } = req.body;
 
     const searchQuery = { $or: [{ username }, { email }] };
 
@@ -42,13 +42,83 @@ async function Register(req, res, next) {
 
     if (haveRegister) return res.status(404).json({ err: "invalid fields" });
 
-    const newUser = await MUser.create({ username, email, password });
+    const newUser = await MUser.create({
+      username,
+      email,
+      password,
+      type: type || 0,
+    });
+
+    if (newUser.type === 0) {
+      await MClient.create({ userId: newUser.id });
+    } else if (newUser.type === 1) {
+      await MEmployee.create({ userId: newUser.id });
+    } else {
+    }
+
     const b64token = b64.encode(`${username}:${password}`);
 
     req.headers.authorization = "Basic " + b64token;
 
     return next();
   } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ err: "internal server error" });
+  }
+}
+
+async function GetUser(req, res) {
+  try {
+    const users = await MUser.find();
+    const sendUsers = [];
+
+    for (let x of users) {
+      const userType = x.type === 1 ? "employee" : "client";
+      const { email } = x;
+
+      sendUsers.push({ email, type: userType });
+    }
+
+    return res.status(200).json(sendUsers);
+  } catch (error) {
+    return res.status(500).json({ err: "internal server error" });
+  }
+}
+
+async function GetClients(req, res) {
+  try {
+    const users = await MClient.find();
+    const sendUsers = [];
+
+    for (let x of users) {
+      const { email, type } = await MUser.findById(x.userId);
+      const userType = type === 1 ? "employee" : "client";
+
+      sendUsers.push({ email, type: userType });
+    }
+
+    return res.status(200).json(sendUsers);
+  } catch (error) {
+    console.log(error.message)
+    return res.status(500).json({ err: "internal server error" });
+  }
+}
+
+async function GetEmployees(req, res) {
+  try {
+    const users = await MEmployee.find();
+    const sendUsers = [];
+
+    for (let x of users) {
+      const { email, type } = await MUser.findById(x.userId);
+      const userType = type === 1 ? "employee" : "client";
+
+      sendUsers.push({ email, type: userType });
+    }
+
+    return res.status(200).json(sendUsers);
+  } catch (error) {
+    console.log(error.message)
     return res.status(500).json({ err: "internal server error" });
   }
 }
@@ -56,4 +126,7 @@ async function Register(req, res, next) {
 module.exports = {
   Login,
   Register,
+  GetUser,
+  GetClients,
+  GetEmployees,
 };
