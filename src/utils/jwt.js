@@ -16,8 +16,8 @@ function decode(token) {
 
     if (hash.split(".").length !== 3) throw Error("invalid token");
 
-    const data = jwt.verify(token, JWT_SECRET, (err, data) => {
-      if (err) throw Error("invalid token");
+    const data = jwt.verify(hash, JWT_SECRET, (err, data) => {
+      if (err) throw Error(err);
 
       return data;
     });

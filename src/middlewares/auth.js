@@ -8,12 +8,13 @@ module.exports = (req, res, next) => {
 
     const { status, data, error } = jwt.decode(token);
 
-    if (!status) throw Error();
+    if (!status) throw Error(error);
 
     req.user = data;
 
     return next();
   } catch (error) {
+    console.log(error.message);
     return res.status(400).json({ err: "permission denied" });
   }
 };
