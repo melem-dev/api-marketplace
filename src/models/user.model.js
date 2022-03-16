@@ -1,4 +1,5 @@
 const { Schema, model: Model } = require("mongoose");
+const bcrypt = require("bcrypt");
 
 /**
  * types
@@ -15,6 +16,22 @@ const schema = new Schema(
   },
   { timestamps: true },
 );
+
+schema.pre("save", function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+
+  this.password = bcrypt.hashSync(this.password, 8);
+});
+
+schema.pre("findOneAndUpdate", function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+
+  this.password = bcrypt.hashSync(this.password, 8);
+});
 
 const model = Model("users", schema);
 

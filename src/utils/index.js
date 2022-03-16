@@ -1,4 +1,5 @@
 const jwt = require("./jwt");
+const b64 = require("./base64");
 
 module.exports = {
   log: (msg) => {
@@ -6,4 +7,5 @@ module.exports = {
     console.log(`[${hour}] ${msg}`);
   },
   jwt,
+  b64,
 };
