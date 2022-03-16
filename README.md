@@ -13,22 +13,22 @@ API com funções básicas de uma loja, como cadastro de produtos, cadastro de c
   - [x] Bcrypt
 - [x] Inicializar servidor express
 - [x] Conexão com o Mongodb cloud
-- [ ] Modelos
-  - [ ] Produtos
+- [x] Modelos
+  - [x] Produtos
     - Title
     - Slug
     - Price
-  - [ ] Usuários
+  - [x] Usuários
     - Username
     - Password
     - Email
     - Type (Cliente / Funcionário)
-  - [ ] Clientes
+  - [x] Clientes
     - userID (objectID)
     - Purchases
-  - [ ] Funcionários
+  - [x] Funcionários
     - userID (ObjectID)
-  - [ ] Vendas
+  - [x] Vendas
     - Client (ObjectID)
     - Items
     - Total
