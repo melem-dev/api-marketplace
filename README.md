@@ -33,7 +33,7 @@ API com funções básicas de uma loja, como cadastro de produtos, cadastro de c
     - Items
     - Total
     - Status
-- [ ] Controladores
+- [x] Controladores
   - [x] Autenticação
     - [x] Login
     - [x] Cadastro
@@ -43,9 +43,10 @@ API com funções básicas de uma loja, como cadastro de produtos, cadastro de c
     - [x] Listar todos
     - [x] Editar
     - [x] Excluir
-  - [ ] Ordens
-    - [ ] Compra
-    - [ ] Status
+  - [x] Ordens
+    - [x] Compra
+    - [x] Status
+    - [x] Listar
 - [ ] Middlewares
   - [ ] Cliente?
   - [ ] Funcionario?
