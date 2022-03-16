@@ -48,7 +48,18 @@ API com funções básicas de uma loja, como cadastro de produtos, cadastro de c
     - [x] Status
     - [x] Listar
 - [ ] Middlewares
-  - [ ] Autenticado
+  - [x] Autenticado
   - [ ] Cliente?
   - [ ] Funcionario?
 - [x] Encriptografar senha
+- [x] Rotas
+  - [x] GET /login
+  - [x] POST /register
+  - [x] GET /product
+  - [x] GET /product/:id
+  - [x] POST /product
+  - [x] PUT /product/:id
+  - [x] DELETE /product/:id
+  - [x] GET /order
+  - [x] GET /order/:id
+  - [x] POST /order
