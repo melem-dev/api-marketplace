@@ -32,19 +32,22 @@ async function Login(req, res) {
   }
 }
 
-async function Register(req, res) {
+async function Register(req, res, next) {
   try {
     const { username, email, password } = req.body;
 
-    const haveRegister = await MUser.findOne({
-      $or: [{ username }, { email }],
-    });
+    const searchQuery = { $or: [{ username }, { email }] };
+
+    const haveRegister = await MUser.findOne(searchQuery);
 
     if (haveRegister) return res.status(404).json({ err: "invalid fields" });
 
-    await MUser.create({ username, email, password });
+    const newUser = await MUser.create({ username, email, password });
+    const b64token = b64.encode(`${username}:${password}`);
 
-    return res.status(201).send();
+    req.headers.authorization = "Basic " + b64token;
+
+    return next();
   } catch (error) {
     return res.status(500).json({ err: "internal server error" });
   }

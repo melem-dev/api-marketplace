@@ -3,7 +3,7 @@ const { _Auth, _Order, _Product } = require("../controllers");
 const { LAuth } = require("../middlewares");
 
 router.get("/login", _Auth.Login);
-router.post("/register", _Auth.Register);
+router.post("/register", _Auth.Register, _Auth.Login);
 
 router.get("/product", LAuth, _Product.readAll);
 router.get("/product/:id", LAuth, _Product.readDetails);

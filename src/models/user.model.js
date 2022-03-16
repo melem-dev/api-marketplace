@@ -23,6 +23,7 @@ schema.pre("save", function (next) {
   }
 
   this.password = bcrypt.hashSync(this.password, 8);
+  next();
 });
 
 schema.pre("findOneAndUpdate", function (next) {
@@ -31,6 +32,7 @@ schema.pre("findOneAndUpdate", function (next) {
   }
 
   this.password = bcrypt.hashSync(this.password, 8);
+  next();
 });
 
 const model = Model("users", schema);
