@@ -49,4 +49,4 @@ API com funções básicas de uma loja, como cadastro de produtos, cadastro de c
 - [ ] Middlewares
   - [ ] Cliente?
   - [ ] Funcionario?
-- [ ] Encriptografar senha
+- [x] Encriptografar senha
